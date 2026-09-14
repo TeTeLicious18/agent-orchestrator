@@ -1,0 +1,6 @@
+# Optional dependencies for the Microsoft Foundry integration.
+# Install on the orchestrator (model catalog sync) and on any agent node that
+# should run inference against Foundry deployments.
+azure-ai-projects>=2.3.0
+azure-identity>=1.19.0
+openai>=1.99.0

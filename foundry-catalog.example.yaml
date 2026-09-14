@@ -1,0 +1,41 @@
+deployments:
+  - name: gpt-4o-orchestrator
+    model_name: gpt-4o
+    publisher: OpenAI
+    model_version: "2024-11-20"
+    sku: GlobalStandard
+    deployment_type: ModelDeployment
+    endpoint: https://contoso-ai.services.ai.azure.com/api/projects/orchestrator
+    capabilities:
+      chatCompletion: "true"
+      assistants: "true"
+      jsonObjectResponse: "true"
+      imageInput: "true"
+
+  - name: o4-mini-reasoning
+    model_name: o4-mini
+    publisher: OpenAI
+    model_version: "2025-04-16"
+    sku: GlobalStandard
+    endpoint: https://contoso-ai.services.ai.azure.com/api/projects/orchestrator
+    capabilities:
+      chatCompletion: "true"
+      assistants: "true"
+
+  - name: text-embedding-3-large
+    model_name: text-embedding-3-large
+    publisher: OpenAI
+    model_version: "1"
+    sku: Standard
+    endpoint: https://contoso-ai.services.ai.azure.com/api/projects/orchestrator
+    capabilities:
+      embeddings: "true"
+
+  - name: phi-4-edge
+    model_name: Phi-4
+    publisher: Microsoft
+    model_version: "1"
+    sku: GlobalStandard
+    endpoint: https://contoso-ai.services.ai.azure.com/api/projects/orchestrator
+    capabilities:
+      chatCompletion: "true"

@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+data/
+*.db
+*.db-wal
+*.db-shm
+.dev-api-key
+agent_node/config.yaml
+agent_workspace/
+.pytest_cache/
+*.mp4

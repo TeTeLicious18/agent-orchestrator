@@ -1,0 +1,6 @@
+# Optional: visible browser control for the autonomous adapter.
+#   pip install -r requirements-browser.txt
+# Microsoft Edge is used through Playwright's "msedge" channel, so no browser
+# download is needed on a Windows node. If Edge is missing, run:
+#   python -m playwright install chromium
+playwright>=1.47.0

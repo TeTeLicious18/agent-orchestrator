@@ -1,0 +1,10 @@
+# Optional: full desktop control (keyboard, windows, screenshots) for the
+# autonomous adapter. Windows nodes only.
+#   pip install -r requirements-desktop.txt
+#
+# This removes the file sandbox as a practical boundary: keystrokes reach whatever
+# window has focus. Install it only on a dedicated VM that holds no credentials
+# you care about, and keep the session supervised.
+pyautogui>=0.9.54
+pygetwindow>=0.0.9
+Pillow>=10.0.0

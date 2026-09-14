@@ -1,0 +1,33 @@
+orchestrator_url: http://localhost:8000
+
+agent_id: clawdbot-pc-01
+name: Clawdbot Ops Agent (Network PC)
+framework: clawdbot
+platform: network_pc
+max_concurrency: 3
+
+labels:
+  region: onprem
+  environment: demo
+  tier: operations
+
+foundry:
+  enabled: true
+  max_output_tokens: 1024
+
+frameworks:
+  scout:
+    enabled: false
+  clawdbot:
+    enabled: true
+    endpoint: ""        # simulation mode
+
+builtin:
+  enabled: true
+  workspace_root: agent_workspace/clawdbot-pc-01
+  allow_http: true
+  allowed_commands:
+    host_info:
+      - python
+      - -c
+      - import platform,json;print(json.dumps({"node":platform.node(),"system":platform.system(),"release":platform.release()}))

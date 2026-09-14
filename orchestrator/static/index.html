@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Orchestrator &middot; Control Plane</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <span class="logo" aria-hidden="true"></span>
+            <div>
+                <h1>Multiplatform Agent Orchestrator</h1>
+                <p class="subtitle">Distributed AI workforce control plane</p>
+            </div>
+        </div>
+        <div class="auth">
+            <label for="apiKey">API key</label>
+            <input id="apiKey" type="password" autocomplete="off" placeholder="X-API-Key" />
+            <button id="saveKey" type="button">Connect</button>
+            <span id="connState" class="pill pill-idle">disconnected</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="kpis" id="kpis" aria-label="Fleet summary"></section>
+
+        <section class="panel">
+            <div class="panel-head">
+                <h2>Submit a task</h2>
+                <span class="hint">Describe the job in plain language. The orchestrator picks the agent and the model.</span>
+            </div>
+            <form id="taskForm" class="task-form">
+                <div class="field field-wide">
+                    <label for="instruction">What should the fleet do?</label>
+                    <textarea id="instruction" name="instruction" rows="3" spellcheck="false"
+                        placeholder="Write three haikus about virtual machines and open them in Notepad"></textarea>
+                </div>
+                <div class="field field-wide">
+                    <label for="targetAgent">Run on</label>
+                    <select id="targetAgent" name="targetAgent">
+                        <option value="">Auto &mdash; best match</option>
+                        <option value="__all__">Every online agent (one task each)</option>
+                    </select>
+                </div>
+                <details class="advanced field-wide">
+                    <summary>Advanced &mdash; override action, capabilities, model or raw payload</summary>
+                    <div class="task-form">
+                        <div class="field">
+                            <label for="title">Title</label>
+                            <input id="title" name="title" maxlength="200" placeholder="Collect weekly VM patch status" />
+                        </div>
+                        <div class="field">
+                            <label for="action">Action</label>
+                            <input id="action" name="action" maxlength="80" placeholder="agent.do" />
+                        </div>
+                        <div class="field">
+                            <label for="capabilities">Required capabilities <span class="hint">(comma separated, optional)</span></label>
+                            <input id="capabilities" name="capabilities" placeholder="browser.automation, research" />
+                        </div>
+                        <div class="field">
+                            <label for="framework">Preferred framework</label>
+                            <select id="framework" name="framework">
+                                <option value="">Any</option>
+                                <option value="scout">Microsoft Scout</option>
+                                <option value="clawdbot">Clawdbot</option>
+                                <option value="builtin">Built-in</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="priority">Priority <span class="hint">(1 = highest)</span></label>
+                            <input id="priority" name="priority" type="number" min="1" max="9" value="5" />
+                        </div>
+                        <div class="field">
+                            <label for="model">Foundry model</label>
+                            <select id="model" name="model">
+                                <option value="">Auto-select from Foundry</option>
+                                <option value="__none__">No model needed</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="modelCapabilities">Model capabilities <span class="hint">(for auto-select)</span></label>
+                            <input id="modelCapabilities" name="modelCapabilities" placeholder="chat, tool-calling" />
+                        </div>
+                        <div class="field field-wide">
+                            <label for="payload">Payload (JSON) <span class="hint">&mdash; leave empty to build it from the description</span></label>
+                            <textarea id="payload" name="payload" rows="3" spellcheck="false"></textarea>
+                        </div>
+                    </div>
+                </details>
+                <div class="form-actions">
+                    <button type="button" id="previewBtn" class="secondary">Preview routing</button>
+                    <button type="submit">Dispatch task</button>
+                </div>
+                <p id="formMessage" class="form-message" role="status"></p>
+            </form>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head">
+                <h2>Microsoft Foundry model catalog</h2>
+                <div class="head-actions">
+                    <span class="hint" id="modelSource"></span>
+                    <button type="button" id="syncModels" class="secondary">Sync now</button>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table id="modelsTable">
+                    <thead>
+                        <tr>
+                            <th>Deployment</th><th>Model</th><th>Publisher</th><th>Version</th>
+                            <th>Capabilities</th><th>Status</th><th>Tokens used</th><th>Last sync</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head"><h2>Agent fleet</h2><span class="hint" id="agentCount"></span></div>
+            <div class="table-wrap">
+                <table id="agentsTable">
+                    <thead>
+                        <tr>
+                            <th>Agent</th><th>Framework</th><th>Platform</th><th>Host</th>
+                            <th>Capabilities</th><th>Load</th><th>Status</th><th>Last heartbeat</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel split">
+            <div>
+                <div class="panel-head"><h2>Tasks</h2><span class="hint">Select a row for telemetry</span></div>
+                <div class="table-wrap">
+                    <table id="tasksTable">
+                        <thead>
+                            <tr><th>Task</th><th>Action</th><th>Agent</th><th>Model</th><th>Status</th><th>Progress</th><th>Updated</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <aside id="detail" class="detail">
+                <div class="panel-head"><h2>Execution detail</h2></div>
+                <p class="hint">No task selected.</p>
+            </aside>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head"><h2>Workflows</h2><span class="hint">Multi-agent DAG runs</span></div>
+            <div class="table-wrap">
+                <table id="workflowsTable">
+                    <thead><tr><th>Workflow</th><th>Status</th><th>Steps</th><th>Progress</th><th>Updated</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head"><h2>Audit log</h2><span class="hint">Immutable governance trail</span></div>
+            <div class="table-wrap">
+                <table id="auditTable">
+                    <thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Entity</th><th>Outcome</th><th>Source</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

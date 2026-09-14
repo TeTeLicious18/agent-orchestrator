@@ -1,0 +1,5 @@
+# Optional: spreadsheet editing for the autonomous adapter.
+#   pip install -r requirements-office.txt
+# Workbooks are written with openpyxl, so Excel itself is not required on the node -
+# only to view the result afterwards.
+openpyxl>=3.1.0

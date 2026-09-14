@@ -1,0 +1,56 @@
+# Agent node configuration.
+# Copy to config.yaml and adjust. Secrets belong in environment variables
+# (AGENT_BOOTSTRAP_TOKEN, SCOUT_API_KEY, CLAWDBOT_API_KEY) or Azure Key Vault -
+# never commit them here.
+
+orchestrator_url: http://localhost:8000
+verify_tls: true
+
+agent_id: agent-scout-vm-01          # stable, unique per machine
+name: Scout Agent - Azure VM 01
+framework: scout                     # scout | clawdbot | builtin | custom
+platform: azure_vm                   # azure_vm | network_pc | container | other
+max_concurrency: 2
+
+labels:
+  region: westeurope
+  environment: prod
+  tier: research
+
+# Capabilities advertised in addition to those the adapters provide.
+extra_capabilities: []
+
+# Microsoft Foundry: models are owned by Foundry, not by this node. The
+# orchestrator tells the node which deployment to use; the node authenticates
+# with its own managed identity (or `az login` locally). No key goes here.
+foundry:
+  enabled: true
+  max_output_tokens: 1024
+
+frameworks:
+  scout:
+    enabled: true
+    # Leave endpoint empty to run in simulation mode (useful for demos).
+    endpoint: ""                     # e.g. http://127.0.0.1:7801
+    verify_tls: true
+    # Optional override of the advertised capability list.
+    # capabilities: [research, browser.automation, llm.reasoning]
+
+  clawdbot:
+    enabled: false
+    endpoint: ""                     # e.g. http://127.0.0.1:7802
+    verify_tls: true
+
+builtin:
+  enabled: true
+  workspace_root: agent_workspace    # every fs.* action is sandboxed to this dir
+  allow_http: true
+  # Shell execution is deny-by-default. Each entry maps a task-visible command
+  # name to the exact argv prefix that will be executed (never through a shell).
+  allowed_commands:
+    disk_report:
+      - powershell
+      - -NoProfile
+      - -NonInteractive
+      - -Command
+      - Get-Volume | Select-Object DriveLetter,SizeRemaining,Size | ConvertTo-Json

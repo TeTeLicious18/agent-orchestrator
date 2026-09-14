@@ -1,0 +1,29 @@
+orchestrator_url: http://localhost:8000
+
+agent_id: scout-vm-01
+name: Scout Research Agent (Azure VM)
+framework: scout
+platform: azure_vm
+max_concurrency: 2
+
+labels:
+  region: westeurope
+  environment: demo
+  tier: research
+
+foundry:
+  enabled: true
+  max_output_tokens: 1024
+
+frameworks:
+  scout:
+    enabled: true
+    endpoint: ""        # simulation mode
+  clawdbot:
+    enabled: false
+
+builtin:
+  enabled: true
+  workspace_root: agent_workspace/scout-vm-01
+  allow_http: true
+  allowed_commands: {}
