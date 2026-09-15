@@ -1,0 +1,140 @@
+name: codeblend-ai-readiness-evaluation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  checks: read
+  contents: read
+  issues: write
+  pull-requests: read
+  statuses: read
+  copilot-requests: write
+
+concurrency:
+  group: ai-readiness-report
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    name: Evaluate repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+
+      - name: Install GitHub Copilot CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --global @github/copilot@1.0.79 --no-audit --no-fund
+          copilot --version
+
+      - name: Run codeblend AI readiness skill
+        id: evaluate
+        shell: bash
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          prompt="Run the /codeblend-ai-composite skill against the current repository root. Follow the skill exactly, run the evaluation once, and do not modify source files or create GitHub resources. Present the generated composite report."
+
+          copilot \
+            -C "$GITHUB_WORKSPACE" \
+            --yolo \
+            --no-ask-user \
+            --disable-builtin-mcps \
+            --no-remote-export \
+            --no-color \
+            --max-ai-credits 100 \
+            -p "$prompt" 2>&1 |
+            tee "$GITHUB_WORKSPACE/copilot-output.txt"
+
+          mkdir -p "$HOME/.ai-readiness-eval"
+          report="$(
+            find "$GITHUB_WORKSPACE" "$HOME/.ai-readiness-eval" -type f -name composite.md -printf '%T@ %p\n' |
+              sort -nr |
+              head -n 1 |
+              cut -d' ' -f2-
+          )"
+          if [[ -z "$report" ]]; then
+            echo "The skill completed without producing composite.md." >&2
+            exit 1
+          fi
+
+          cp "$report" "$GITHUB_WORKSPACE/ai-readiness-report.md"
+
+      - name: Prepare issue body
+        id: prepare
+        if: always()
+        shell: pwsh
+        env:
+          EVALUATION_OUTCOME: ${{ steps.evaluate.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          $bodyPath = Join-Path $env:GITHUB_WORKSPACE "issue-body.md"
+          $reportPath = Join-Path $env:GITHUB_WORKSPACE "ai-readiness-report.md"
+          $outputPath = Join-Path $env:GITHUB_WORKSPACE "copilot-output.txt"
+          $header = "Automated AI-readiness evaluation for commit ``$env:COMMIT_SHA``.`n`n[View workflow run]($env:RUN_URL)`n`n"
+
+          if ($env:EVALUATION_OUTCOME -eq "success" -and (Test-Path -LiteralPath $reportPath)) {
+            $content = $header + (Get-Content -LiteralPath $reportPath -Raw)
+            "issue_title=AI readiness report" | Out-File $env:GITHUB_OUTPUT -Append -Encoding utf8
+          }
+          else {
+            $diagnostics = if (Test-Path -LiteralPath $outputPath) {
+              Get-Content -LiteralPath $outputPath -Raw
+            }
+            else {
+              "Copilot CLI produced no captured output."
+            }
+            $content = "$header## Evaluation failed`n`n````text`n$diagnostics`n````"
+            "issue_title=AI readiness evaluation failed" | Out-File $env:GITHUB_OUTPUT -Append -Encoding utf8
+          }
+
+          if ($content.Length -gt 60000) {
+            $content = $content.Substring(0, 60000) + "`n`n_Report truncated; download the workflow artifact for the full output._"
+          }
+          Set-Content -LiteralPath $bodyPath -Value $content -Encoding utf8
+
+      - name: Upload report artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ai-readiness-report-${{ github.run_number }}
+          path: |
+            ai-readiness-report.md
+            copilot-output.txt
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Create report issue
+        if: always()
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_TITLE: ${{ steps.prepare.outputs.issue_title }}
+          ISSUE_ASSIGNEE: ${{ github.event_name == 'workflow_dispatch' && github.actor || '' }}
+        run: |
+          $bodyPath = Join-Path $env:GITHUB_WORKSPACE "issue-body.md"
+          $arguments = @(
+            "issue", "create",
+            "--title", $env:ISSUE_TITLE,
+            "--body-file", $bodyPath
+          )
+          if ($env:ISSUE_ASSIGNEE) {
+            $arguments += @("--assignee", $env:ISSUE_ASSIGNEE)
+          }
+
+          & gh @arguments
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to create the report issue."
+          }
