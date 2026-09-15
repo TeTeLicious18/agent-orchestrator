@@ -89,6 +89,23 @@ class DesktopController:
         await asyncio.sleep(1.5)
         return {"ok": True, "launched": name}
 
+    async def open_with(self, app: Any, path: str) -> dict[str, Any]:
+        """Launch an allow-listed application on a specific file.
+
+        ``launch`` starts an application with no arguments, so an editor opens empty.
+        The file path is appended as an argument, never as command text.
+        """
+        name = str(app or "").strip().lower()
+        if name not in self.apps:
+            raise AdapterError(
+                f"'{name}' is not in this node's application allow-list: {', '.join(sorted(self.apps))}"
+            )
+        if not os.path.exists(path):
+            raise AdapterError("file not found; create it first")
+        subprocess.Popen([*self.apps[name], path], close_fds=True)
+        await asyncio.sleep(1.5)
+        return {"ok": True, "app": name, "opened": os.path.basename(path)}
+
     async def list_windows(self) -> dict[str, Any]:
         gui = self._pyautogui()
 

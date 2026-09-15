@@ -54,8 +54,9 @@ SYSTEM_PROMPT = (
     "To produce working code, write the source with write_file and execute it with run_code; "
     "never type a program into an editor window, because that is slow and unreliable. If "
     "run_code returns a non-zero exit code, read stderr, fix the file with write_file, and "
-    "run it again until it succeeds. Opening an editor such as VS Code is only ever for "
-    "showing the finished file to the user, never for authoring it. "
+    "run it again until it succeeds. Spreadsheets are created with excel_write, never with "
+    "write_file, which only produces text. To show a finished file to the user, call "
+    "desktop_open_with(app, path) - desktop_launch opens an application with no document. "
     "Finish by replying with a short plain-text summary of what you did. Do not claim to "
     "have done something you did not do through a tool call."
 )
@@ -310,9 +311,20 @@ class AutonomousAdapter:
                 [
                     tool(
                         "desktop_launch",
-                        f"Start an application on the desktop. Allowed: {apps}.",
+                        f"Start an application with no document open. Allowed: {apps}. "
+                        f"To show an existing file, use desktop_open_with instead.",
                         {"app": {"type": "string", "description": f"One of: {apps}"}},
                         ["app"],
+                    ),
+                    tool(
+                        "desktop_open_with",
+                        f"Open a workspace file in a specific application, for example a .py file "
+                        f"in vscode or a .xlsx file in excel. Allowed: {apps}.",
+                        {
+                            "app": {"type": "string", "description": f"One of: {apps}"},
+                            "path": {"type": "string", "description": "Relative path of an existing file"},
+                        },
+                        ["app", "path"],
                     ),
                     tool(
                         "desktop_list_windows",
@@ -474,6 +486,8 @@ class AutonomousAdapter:
     async def _run_desktop_tool(self, name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         if name == "desktop_launch":
             return await self.desktop.launch(arguments.get("app"))
+        if name == "desktop_open_with":
+            return await self.desktop.open_with(arguments.get("app"), self._resolve(arguments.get("path")))
         if name == "desktop_list_windows":
             return await self.desktop.list_windows()
         if name == "desktop_focus":
@@ -521,6 +535,10 @@ class AutonomousAdapter:
     def _write_file(self, path: Any, content: Any) -> dict[str, Any]:
         if not isinstance(content, str):
             raise ValueError("'content' must be a string")
+        # Writing text into a binary container produces a file that opens as corrupt.
+        extension = os.path.splitext(str(path or ""))[1].lower()
+        if extension in {".xlsx", ".xlsm", ".xls"}:
+            raise ValueError("use excel_write for spreadsheets; write_file only produces text files")
         if len(content.encode("utf-8")) > MAX_WRITE_BYTES:
             raise ValueError(f"content exceeds the {MAX_WRITE_BYTES} byte limit")
         target = self._resolve(path)
