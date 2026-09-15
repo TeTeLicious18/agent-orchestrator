@@ -1,0 +1,1520 @@
+{
+  "advanced": {
+    "api_surface": {
+      "category": "API Surface Clarity",
+      "score": 72,
+      "rating": "Clear",
+      "details": [
+        "OpenAPI/Swagger spec found — REST API is machine-readable"
+      ],
+      "issues": [],
+      "metrics": {
+        "documented_functions": 22,
+        "exported_symbols": 120,
+        "index_files": 8,
+        "internal_symbols": 92,
+        "proto_files": 0,
+        "total_functions": 212,
+        "typed_functions": 158
+      }
+    },
+    "cleanup_automation": {
+      "category": "Continuous cleanup automation",
+      "score": 35,
+      "rating": "Capability only",
+      "details": [
+        "Cleanup capability: detected with 2 executable or configured evidence file(s).",
+        "Bounded repeatable driver: not detected.",
+        "Concrete scheduler enrollment: not detected.",
+        "Observed behavior: unknown."
+      ],
+      "issues": [
+        "Cleanup logic exists, but no bounded repeatable driver was found."
+      ],
+      "metrics": {
+        "advisory_capability_exists": false,
+        "behavior": "unknown",
+        "cleanup_capability_exists": true,
+        "manifest_declaration_count": 1,
+        "mutation_capability_exists": false,
+        "read_error_count": 20,
+        "scheduled_driver_exists": false,
+        "scheduler_enrollment_exists": false,
+        "state_config_count": 0
+      },
+      "capabilities": {
+        "advisory": {
+          "available": false,
+          "evidence": []
+        },
+        "cleanup_capability": {
+          "available": true,
+          "evidence": [
+            "orchestrator/registry.py",
+            "orchestrator/scheduler.py"
+          ]
+        },
+        "mutation": {
+          "available": false,
+          "evidence": []
+        },
+        "scheduled_driver": {
+          "available": false,
+          "evidence": []
+        },
+        "scheduler_enrollment": {
+          "available": false,
+          "evidence": [],
+          "mechanisms": null
+        }
+      },
+      "supporting_evidence": {
+        "agent_or_skill_manifests": [
+          ".agents/skills/codeblend-ai-composite/SKILL.md"
+        ],
+        "read_errors": [
+          ".ruff_cache/0.16.6/10154466454688042806: UnicodeError",
+          ".ruff_cache/0.16.6/10759009406209477474: UnicodeError",
+          ".ruff_cache/0.16.6/11927732449186676529: UnicodeError",
+          ".ruff_cache/0.16.6/12022183052260301031: UnicodeError",
+          ".ruff_cache/0.16.6/12515873192497509357: UnicodeError",
+          ".ruff_cache/0.16.6/14644078168041077314: UnicodeError",
+          ".ruff_cache/0.16.6/15210429596096263758: UnicodeError",
+          ".ruff_cache/0.16.6/15793392091105383903: UnicodeError",
+          ".ruff_cache/0.16.6/17902155584103209460: UnicodeError",
+          ".ruff_cache/0.16.6/18105503354710256591: UnicodeError",
+          ".ruff_cache/0.16.6/1917099917146230721: UnicodeError",
+          ".ruff_cache/0.16.6/2110255176332611024: UnicodeError",
+          ".ruff_cache/0.16.6/2246431583838698882: UnicodeError",
+          ".ruff_cache/0.16.6/4449372794402577915: UnicodeError",
+          ".ruff_cache/0.16.6/4538990469377547712: UnicodeError",
+          ".ruff_cache/0.16.6/5095036661553960896: UnicodeError",
+          ".ruff_cache/0.16.6/6016623969156035805: UnicodeError",
+          ".ruff_cache/0.16.6/6400525843211275210: UnicodeError",
+          ".ruff_cache/0.16.6/8888795694154163685: UnicodeError",
+          ".ruff_cache/0.16.6/949696147197792169: UnicodeError"
+        ],
+        "state_or_cadence_config": []
+      },
+      "score_neutral": true
+    },
+    "code_quality_deep": {
+      "category": "Code-Level Quality (Deep Analysis)",
+      "score": 51,
+      "rating": "Moderate",
+      "details": [],
+      "issues": [],
+      "metrics": {
+        "boolean_traps": 0,
+        "duplicate_blocks": 7,
+        "long_functions": 29,
+        "magic_literal_count": 82,
+        "naming_issues": 0,
+        "total_files_analyzed": 40,
+        "total_functions": 212
+      }
+    },
+    "context_efficiency": {
+      "category": "Context Efficiency",
+      "score": 54,
+      "rating": "Moderate",
+      "details": [
+        "Total codebase: ~71216 tokens across 40 files (avg 1780 tokens/file)"
+      ],
+      "issues": [],
+      "metrics": {
+        "avg_tokens_per_file": 1780,
+        "comment_ratio": 0.054799999999999995,
+        "total_files": 40,
+        "total_tokens": 71216
+      }
+    },
+    "coupling": {
+      "category": "Coupling \u0026 Change Amplification",
+      "score": 45,
+      "rating": "Moderate coupling",
+      "details": [
+        "Git history (last 100 commits): median 5.5 files/commit"
+      ],
+      "issues": [],
+      "metrics": {
+        "repo_type_monorepo": false,
+        "unstable_modules": 0
+      }
+    },
+    "error_handling": {
+      "category": "Error Handling Patterns",
+      "score": 85,
+      "rating": "Consistent",
+      "details": [
+        "Zero empty catch blocks detected (AST verified)"
+      ],
+      "issues": [],
+      "metrics": {
+        "custom_error_classes": 1,
+        "empty_catches": 0,
+        "files_with_error_handling": 19,
+        "generic_catches": 6,
+        "result_types": 0,
+        "total_try_blocks": 47,
+        "typed_catches": 40
+      }
+    },
+    "feedback_speed": {
+      "category": "Feedback Speed",
+      "score": 65,
+      "rating": "Good",
+      "details": [
+        "Pre-commit hooks found: .pre-commit-config.yaml",
+        ".pre-commit-config.yaml: 4 hook entries detected",
+        ".pre-commit-config.yaml: uses lint-only tools (fast feedback)",
+        "CI pipeline found: .github/workflows/codeblend-ai-readiness-evaluation.yml",
+        ".github/workflows/tests.yml: uses caching"
+      ],
+      "issues": [
+        ".pre-commit-config.yaml runs full test suite in pre-commit — too slow for agents",
+        ".pre-commit-config.yaml: hook runs test suite (slow for agents)"
+      ],
+      "metrics": {
+        "ci_platform": "github-actions"
+      }
+    },
+    "harness_engineering": {
+      "category": "Harness Engineering",
+      "score": 30,
+      "rating": "Moderate",
+      "details": [
+        "AGENTS.md found (4858 chars — Agents agent guidance)",
+        "Agent doc is 93 lines (≤120 — within length discipline target)",
+        ".pre-commit-config.yaml contains lint-only tools (fast feedback for agents)"
+      ],
+      "issues": [
+        "Add ≥3 .md files to .claude/commands/ (currently 0) to define agent slash commands",
+        "Add hooks.PostToolUse (formatter on edit) and hooks.PreToolUse (block dangerous bash) to .claude/settings.json",
+        "Add permission.path_rules and permission.denied_commands to .claude/settings.json (deny `**/.env*`, `vendor/**`; block force-push)",
+        "Add explore + plan sub-agents to .claude/agents/*.md or .github/agents/*.agent.md — the Explore sub-agent is the single highest-leverage context firewall for legacy repos",
+        "Add ≥3 silent-on-success-verbose-on-failure wrappers to scripts/agent/ (currently 0)",
+        "Add scripts/agent/eval/ with at minimum keep-rate.sh — owner needs an honest production metric (Cursor's framing)",
+        "Add MEMORY.md or a .agent/ directory to persist agent state across sessions",
+        "Add a CODEOWNERS file to define review ownership for agent-generated PRs",
+        "Add a SECURITY.md to define vulnerability reporting policy",
+        "Subdirectory AGENTS.md coverage is 29% — add more to cover \u003e30% of modules"
+      ],
+      "metrics": {
+        "agent_doc_lines": 93,
+        "agents_md_module_coverage": 0.2857142857142857,
+        "harness.cli": "copilot",
+        "scripts_agent_count": 0
+      }
+    },
+    "pr_auditor": {
+      "category": "LLM PR Auditor",
+      "score": 100,
+      "rating": "Strong evidence",
+      "details": [
+        "Correlated repository evidence establishes an LLM/agent-based PR auditor across 12 files.",
+        "Auditor runs automatically on pull-request events.",
+        "Auditor can be invoked manually through a repository workflow.",
+        "Changed files dispatch scoped review guards or prompt rules."
+      ],
+      "issues": [],
+      "metrics": {
+        "agent_generated_pr_coverage": true,
+        "automatic": true,
+        "comment_only": false,
+        "confidence": "strong",
+        "evidence": {
+          "agent_contract": [
+            ".agents/skills/codeblend-ai-composite/codeblend-ai-readiness-evaluation.yml",
+            ".agents/skills/codeblend-ai-composite/how-it-work.md",
+            ".github/workflows/codeblend-ai-readiness-evaluation.yml",
+            "substrate-report.json"
+          ],
+          "automatic_pr_trigger": [
+            ".agents/skills/codeblend-ai-composite/codeblend-ai-readiness-evaluation.yml",
+            ".github/workflows/codeblend-ai-readiness-evaluation.yml",
+            ".github/workflows/tests.yml"
+          ],
+          "diff_or_guard_coverage": [
+            "AGENTS.md",
+            "orchestrator/AGENTS.md",
+            "substrate-report.json",
+            "tests/test_orchestration.py"
+          ],
+          "llm_evaluation": [
+            ".agents/skills/codeblend-ai-composite/codeblend-ai-readiness-evaluation.yml",
+            ".agents/skills/codeblend-ai-composite/how-it-work.md",
+            ".github/workflows/codeblend-ai-readiness-evaluation.yml",
+            "substrate-report.json"
+          ],
+          "manual_invocation": [
+            ".github/workflows/codeblend-ai-readiness-evaluation.yml",
+            ".github/workflows/tests.yml"
+          ],
+          "review_output": [
+            ".agents/skills/codeblend-ai-composite/codeblend-ai-readiness-evaluation.yml",
+            ".agents/skills/codeblend-ai-composite/how-it-work.md",
+            ".github/workflows/codeblend-ai-readiness-evaluation.yml",
+            "docs/openapi.json",
+            "orchestrator/main.py",
+            "orchestrator/security.py",
+            "substrate-report.json",
+            "tests/test_foundry.py",
+            "tests/test_orchestration.py"
+          ]
+        },
+        "exists": true,
+        "manual": true,
+        "merge_gate": true,
+        "platforms": [
+          "github_actions"
+        ],
+        "scoped_guards": true,
+        "whole_diff_coverage": false
+      },
+      "limitations": [
+        "Static repository evidence cannot prove that configured jobs currently run successfully.",
+        "Signals must share explicit file references, distinctive identifiers, or review-invocation semantics.",
+        "Merge gating is reported only when an explicit required status, policy, vote, or blocking rule is present.",
+        "Author coverage is inferred from trigger definitions; runtime policy APIs may provide stronger evidence."
+      ]
+    },
+    "review_workflow": {
+      "category": "Review Workflow",
+      "score": 20,
+      "rating": "Minimal",
+      "details": [
+        "Security scanning configured (CodeQL/Snyk/Trivy/Semgrep/gosec/bandit/cargo-audit)"
+      ],
+      "issues": [
+        "Add .github/pull_request_template.md to guide agent-generated PRs",
+        "Add dependabot.yml or renovate.json to automate dependency updates",
+        "Add CONTRIBUTING.md to document how to contribute and run tests"
+      ],
+      "metrics": {
+        "dependency_automation": false,
+        "pr_automation": false,
+        "pr_template": false,
+        "security_scanning": true,
+        "workflow_count": 2
+      }
+    },
+    "smell_density": {
+      "category": "Code Smell Density",
+      "score": 60,
+      "rating": "Moderate",
+      "details": [],
+      "issues": [],
+      "metrics": {
+        "repo_type_cli": false,
+        "repo_type_desktop": false,
+        "repo_type_small": true,
+        "smells_per_1k_lines": 5,
+        "total_smells": 36
+      }
+    },
+    "test_quality": {
+      "category": "Test Quality",
+      "score": 38,
+      "rating": "Moderate",
+      "details": [],
+      "issues": [],
+      "metrics": {
+        "coverage_bonus": 0,
+        "source_files": 35,
+        "test_files": 5,
+        "test_to_code_ratio": 0.158
+      }
+    },
+    "workflow_safeguards": {
+      "category": "Agent Workflow Safeguards",
+      "score": 22,
+      "rating": "Partial",
+      "details": [
+        "Detected 2/9 workflow safeguard capabilities from implementation and test evidence."
+      ],
+      "issues": [
+        "Add explicit termination predicates and cancellation, stop, or handoff exits to the bounded workflow runner"
+      ],
+      "metrics": {
+        "content_budget_bytes": 67108864,
+        "content_budget_exhausted": false,
+        "content_bytes_considered": 466601,
+        "files_considered": 59,
+        "implementation_files_considered": 42,
+        "test_files_considered": 5
+      },
+      "capabilities": {
+        "bounded_execution_tests": {
+          "available": false,
+          "evidence": []
+        },
+        "loop_exit_telemetry": {
+          "available": false,
+          "evidence": []
+        },
+        "orchestration_iteration_bound": {
+          "available": true,
+          "evidence": [],
+          "evidence_file_count": 1,
+          "signals": [
+            "numeric_limit",
+            "enforced_counter"
+          ]
+        },
+        "per_tool_invocation_bound": {
+          "available": false,
+          "evidence": []
+        },
+        "privacy_retention_boundaries": {
+          "available": false,
+          "evidence": []
+        },
+        "semantic_cycle_detection": {
+          "available": false,
+          "evidence": []
+        },
+        "structured_progress_traces": {
+          "available": false,
+          "evidence": [],
+          "evidence_file_count": 3,
+          "signals": [
+            "task_events"
+          ]
+        },
+        "termination_exits": {
+          "available": false,
+          "evidence": [],
+          "evidence_file_count": 9,
+          "signals": [
+            "cancel_stop_handoff"
+          ]
+        },
+        "workflow_framework": {
+          "available": true,
+          "evidence": [],
+          "evidence_file_count": 24,
+          "signals": [
+            "conditions",
+            "completion_dependencies",
+            "bounded_concurrency",
+            "structured_responses",
+            "telemetry"
+          ]
+        }
+      },
+      "score_neutral": true
+    }
+  },
+  "advanced_adjustment": 5.4,
+  "ci_platform": "github-actions",
+  "code_smells": [
+    {
+      "type": "high_instability",
+      "file": "agent_node/runner.py",
+      "metric": "Ce=20, Ca=0, I=1.00",
+      "severity": "high"
+    },
+    {
+      "type": "high_instability",
+      "file": "orchestrator/foundry.py",
+      "metric": "Ce=13, Ca=0, I=1.00",
+      "severity": "high"
+    },
+    {
+      "type": "high_instability",
+      "file": "orchestrator/main.py",
+      "metric": "Ce=15, Ca=0, I=1.00",
+      "severity": "high"
+    },
+    {
+      "type": "god_class",
+      "file": "orchestrator/static/app.js",
+      "metric": "tokens=5823, methods=24",
+      "severity": "medium"
+    },
+    {
+      "type": "high_coupling",
+      "file": "agent_node/runner.py",
+      "metric": "fan_out=20, instability=1.00",
+      "severity": "medium"
+    },
+    {
+      "type": "high_coupling",
+      "file": "orchestrator/foundry.py",
+      "metric": "fan_out=13, instability=1.00",
+      "severity": "medium"
+    },
+    {
+      "type": "high_coupling",
+      "file": "orchestrator/main.py",
+      "metric": "fan_out=15, instability=1.00",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/adapters/autonomous.py",
+      "function": "capabilities",
+      "metric": "lines=104 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/adapters/autonomous.py",
+      "function": "tool",
+      "metric": "lines=346 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/adapters/browser.py",
+      "function": "__init__",
+      "metric": "lines=56 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/adapters/browser.py",
+      "function": "_check",
+      "metric": "lines=77 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/adapters/builtin.py",
+      "function": "_resolve",
+      "metric": "lines=67 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/adapters/builtin.py",
+      "function": "_write",
+      "metric": "lines=81 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/adapters/framework.py",
+      "function": "capabilities",
+      "metric": "lines=97 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/client.py",
+      "function": "_sign",
+      "metric": "lines=73 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/foundry.py",
+      "function": "_chat_tools_sync",
+      "metric": "lines=58 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/runner.py",
+      "function": "__init__",
+      "metric": "lines=88 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/runner.py",
+      "function": "build_adapters",
+      "metric": "lines=112 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "agent_node/runner.py",
+      "function": "select_adapter",
+      "metric": "lines=73 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/foundry.py",
+      "function": "_persist",
+      "metric": "lines=64 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/foundry.py",
+      "function": "sync",
+      "metric": "lines=77 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/metrics.py",
+      "function": "fleet_summary",
+      "metric": "lines=59 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/models.py",
+      "function": "_normalise_caps",
+      "metric": "lines=51 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/models.py",
+      "function": "_normalise_caps",
+      "metric": "lines=93 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/models.py",
+      "function": "_validate_dag",
+      "metric": "lines=104 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/models.py",
+      "function": "utcnow_iso",
+      "metric": "lines=88 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/routing.py",
+      "function": "select_model",
+      "metric": "lines=51 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/scheduler.py",
+      "function": "complete",
+      "metric": "lines=83 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/scheduler.py",
+      "function": "lease",
+      "metric": "lines=112 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/scheduler.py",
+      "function": "reap",
+      "metric": "lines=96 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/security.py",
+      "function": "check_and_add",
+      "metric": "lines=56 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/static/app.js",
+      "function": "add",
+      "metric": "lines=60 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/static/app.js",
+      "function": "readSubmission",
+      "metric": "lines=139 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/tasks.py",
+      "function": "_insert",
+      "metric": "lines=56 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "orchestrator/workflows.py",
+      "function": "advance",
+      "metric": "lines=81 (threshold=50)",
+      "severity": "medium"
+    },
+    {
+      "type": "oversized_function",
+      "file": "tests/test_adapters.py",
+      "function": "agent",
+      "metric": "lines=172 (threshold=50)",
+      "severity": "medium"
+    }
+  ],
+  "file_stats": {
+    "excluded_large_artifacts": [],
+    "excluded_large_artifacts_count": 0,
+    "extensions": {
+      ".js": 1,
+      ".py": 39
+    },
+    "large_files": [
+      {
+        "lines": 630,
+        "path": "agent_node/adapters/autonomous.py"
+      },
+      {
+        "lines": 560,
+        "path": "orchestrator/static/app.js"
+      }
+    ],
+    "primary_language": ".py",
+    "total_code_files": 40,
+    "total_lines": 7242
+  },
+  "finding_summary": {
+    "code_smells": {
+      "total": 36,
+      "included": 36,
+      "truncated": false,
+      "by_category": {
+        "god_class": 1,
+        "high_coupling": 3,
+        "high_instability": 3,
+        "oversized_function": 29
+      }
+    },
+    "opportunities": {
+      "total": 36,
+      "included": 36,
+      "truncated": false,
+      "by_category": {
+        "god_class": 1,
+        "high_coupling": 3,
+        "high_instability": 3,
+        "oversized_function": 29
+      }
+    }
+  },
+  "maturity_floor_note": "",
+  "maturity_level": 4,
+  "maturity_name": "Delegated",
+  "opportunities": [
+    {
+      "id": "opp-0011",
+      "category": "high_instability",
+      "file": "agent_node/runner.py",
+      "severity": "high",
+      "metric": "Ce=20, Ca=0, I=1.00",
+      "suggested_action": "reduce_coupling",
+      "action_params": {
+        "afferent_coupling": 0,
+        "efferent_coupling": 20,
+        "instability": 1
+      },
+      "confidence": 0.7,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0016",
+      "category": "high_instability",
+      "file": "orchestrator/foundry.py",
+      "severity": "high",
+      "metric": "Ce=13, Ca=0, I=1.00",
+      "suggested_action": "reduce_coupling",
+      "action_params": {
+        "afferent_coupling": 0,
+        "efferent_coupling": 13,
+        "instability": 1
+      },
+      "confidence": 0.7,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0020",
+      "category": "high_instability",
+      "file": "orchestrator/main.py",
+      "severity": "high",
+      "metric": "Ce=15, Ca=0, I=1.00",
+      "suggested_action": "reduce_coupling",
+      "action_params": {
+        "afferent_coupling": 0,
+        "efferent_coupling": 15,
+        "instability": 1
+      },
+      "confidence": 0.7,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0002",
+      "category": "oversized_function",
+      "file": "agent_node/adapters/autonomous.py",
+      "line_start": 198,
+      "line_end": 543,
+      "symbol": "tool",
+      "severity": "high",
+      "metric": "lines=346 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "tool",
+        "is_exported": true,
+        "line_end": 543,
+        "line_start": 198
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0031",
+      "category": "god_class",
+      "file": "orchestrator/static/app.js",
+      "severity": "medium",
+      "metric": "tokens=5823, methods=24",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function_count": 24,
+        "tokens": 5823
+      },
+      "confidence": 0.75,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0010",
+      "category": "high_coupling",
+      "file": "agent_node/runner.py",
+      "severity": "medium",
+      "metric": "fan_out=20, instability=1.00",
+      "suggested_action": "reduce_coupling",
+      "action_params": {
+        "fan_in": 0,
+        "fan_out": 20,
+        "instability": 1
+      },
+      "confidence": 0.8,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0015",
+      "category": "high_coupling",
+      "file": "orchestrator/foundry.py",
+      "severity": "medium",
+      "metric": "fan_out=13, instability=1.00",
+      "suggested_action": "reduce_coupling",
+      "action_params": {
+        "fan_in": 0,
+        "fan_out": 13,
+        "instability": 1
+      },
+      "confidence": 0.8,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0019",
+      "category": "high_coupling",
+      "file": "orchestrator/main.py",
+      "severity": "medium",
+      "metric": "fan_out=15, instability=1.00",
+      "suggested_action": "reduce_coupling",
+      "action_params": {
+        "fan_in": 0,
+        "fan_out": 15,
+        "instability": 1
+      },
+      "confidence": 0.8,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0001",
+      "category": "oversized_function",
+      "file": "agent_node/adapters/autonomous.py",
+      "line_start": 93,
+      "line_end": 196,
+      "symbol": "capabilities",
+      "severity": "medium",
+      "metric": "lines=104 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "capabilities",
+        "is_exported": true,
+        "line_end": 196,
+        "line_start": 93
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0012",
+      "category": "oversized_function",
+      "file": "agent_node/runner.py",
+      "line_start": 45,
+      "line_end": 156,
+      "symbol": "build_adapters",
+      "severity": "medium",
+      "metric": "lines=112 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "build_adapters",
+        "is_exported": true,
+        "line_end": 156,
+        "line_start": 45
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0025",
+      "category": "oversized_function",
+      "file": "orchestrator/models.py",
+      "line_start": 291,
+      "line_end": 394,
+      "symbol": "_validate_dag",
+      "severity": "medium",
+      "metric": "lines=104 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "_validate_dag",
+        "is_exported": false,
+        "line_end": 394,
+        "line_start": 291
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0027",
+      "category": "oversized_function",
+      "file": "orchestrator/scheduler.py",
+      "line_start": 45,
+      "line_end": 156,
+      "symbol": "lease",
+      "severity": "medium",
+      "metric": "lines=112 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "lease",
+        "is_exported": true,
+        "line_end": 156,
+        "line_start": 45
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0033",
+      "category": "oversized_function",
+      "file": "orchestrator/static/app.js",
+      "line_start": 376,
+      "line_end": 514,
+      "symbol": "readSubmission",
+      "severity": "medium",
+      "metric": "lines=139 (threshold=50)",
+      "suggested_action": "extract_hook",
+      "action_params": {
+        "function": "readSubmission",
+        "hook_name": "ReadSubmission",
+        "is_exported": false,
+        "line_end": 514,
+        "line_start": 376
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0036",
+      "category": "oversized_function",
+      "file": "tests/test_adapters.py",
+      "line_start": 28,
+      "line_end": 199,
+      "symbol": "agent",
+      "severity": "medium",
+      "metric": "lines=172 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "agent",
+        "is_exported": true,
+        "line_end": 199,
+        "line_start": 28
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0003",
+      "category": "oversized_function",
+      "file": "agent_node/adapters/browser.py",
+      "line_start": 35,
+      "line_end": 90,
+      "symbol": "__init__",
+      "severity": "low",
+      "metric": "lines=56 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "__init__",
+        "is_exported": false,
+        "line_end": 90,
+        "line_start": 35
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0004",
+      "category": "oversized_function",
+      "file": "agent_node/adapters/browser.py",
+      "line_start": 91,
+      "line_end": 167,
+      "symbol": "_check",
+      "severity": "low",
+      "metric": "lines=77 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "_check",
+        "is_exported": false,
+        "line_end": 167,
+        "line_start": 91
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0005",
+      "category": "oversized_function",
+      "file": "agent_node/adapters/builtin.py",
+      "line_start": 95,
+      "line_end": 161,
+      "symbol": "_resolve",
+      "severity": "low",
+      "metric": "lines=67 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "_resolve",
+        "is_exported": false,
+        "line_end": 161,
+        "line_start": 95
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0006",
+      "category": "oversized_function",
+      "file": "agent_node/adapters/builtin.py",
+      "line_start": 162,
+      "line_end": 242,
+      "symbol": "_write",
+      "severity": "low",
+      "metric": "lines=81 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "_write",
+        "is_exported": false,
+        "line_end": 242,
+        "line_start": 162
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0007",
+      "category": "oversized_function",
+      "file": "agent_node/adapters/framework.py",
+      "line_start": 53,
+      "line_end": 149,
+      "symbol": "capabilities",
+      "severity": "low",
+      "metric": "lines=97 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "capabilities",
+        "is_exported": true,
+        "line_end": 149,
+        "line_start": 53
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0008",
+      "category": "oversized_function",
+      "file": "agent_node/client.py",
+      "line_start": 40,
+      "line_end": 112,
+      "symbol": "_sign",
+      "severity": "low",
+      "metric": "lines=73 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "_sign",
+        "is_exported": false,
+        "line_end": 112,
+        "line_start": 40
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0009",
+      "category": "oversized_function",
+      "file": "agent_node/foundry.py",
+      "line_start": 102,
+      "line_end": 159,
+      "symbol": "_chat_tools_sync",
+      "severity": "low",
+      "metric": "lines=58 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "_chat_tools_sync",
+        "is_exported": false,
+        "line_end": 159,
+        "line_start": 102
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0013",
+      "category": "oversized_function",
+      "file": "agent_node/runner.py",
+      "line_start": 171,
+      "line_end": 258,
+      "symbol": "__init__",
+      "severity": "low",
+      "metric": "lines=88 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "__init__",
+        "is_exported": false,
+        "line_end": 258,
+        "line_start": 171
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0014",
+      "category": "oversized_function",
+      "file": "agent_node/runner.py",
+      "line_start": 259,
+      "line_end": 331,
+      "symbol": "select_adapter",
+      "severity": "low",
+      "metric": "lines=73 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "select_adapter",
+        "is_exported": true,
+        "line_end": 331,
+        "line_start": 259
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0017",
+      "category": "oversized_function",
+      "file": "orchestrator/foundry.py",
+      "line_start": 245,
+      "line_end": 308,
+      "symbol": "_persist",
+      "severity": "low",
+      "metric": "lines=64 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "_persist",
+        "is_exported": false,
+        "line_end": 308,
+        "line_start": 245
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0018",
+      "category": "oversized_function",
+      "file": "orchestrator/foundry.py",
+      "line_start": 309,
+      "line_end": 385,
+      "symbol": "sync",
+      "severity": "low",
+      "metric": "lines=77 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "sync",
+        "is_exported": true,
+        "line_end": 385,
+        "line_start": 309
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0021",
+      "category": "oversized_function",
+      "file": "orchestrator/metrics.py",
+      "line_start": 15,
+      "line_end": 73,
+      "symbol": "fleet_summary",
+      "severity": "low",
+      "metric": "lines=59 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "fleet_summary",
+        "is_exported": true,
+        "line_end": 73,
+        "line_start": 15
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0022",
+      "category": "oversized_function",
+      "file": "orchestrator/models.py",
+      "line_start": 16,
+      "line_end": 103,
+      "symbol": "utcnow_iso",
+      "severity": "low",
+      "metric": "lines=88 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "utcnow_iso",
+        "is_exported": true,
+        "line_end": 103,
+        "line_start": 16
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0023",
+      "category": "oversized_function",
+      "file": "orchestrator/models.py",
+      "line_start": 104,
+      "line_end": 154,
+      "symbol": "_normalise_caps",
+      "severity": "low",
+      "metric": "lines=51 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "_normalise_caps",
+        "is_exported": false,
+        "line_end": 154,
+        "line_start": 104
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0024",
+      "category": "oversized_function",
+      "file": "orchestrator/models.py",
+      "line_start": 155,
+      "line_end": 247,
+      "symbol": "_normalise_caps",
+      "severity": "low",
+      "metric": "lines=93 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "_normalise_caps",
+        "is_exported": false,
+        "line_end": 247,
+        "line_start": 155
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0026",
+      "category": "oversized_function",
+      "file": "orchestrator/routing.py",
+      "line_start": 168,
+      "line_end": 218,
+      "symbol": "select_model",
+      "severity": "low",
+      "metric": "lines=51 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "select_model",
+        "is_exported": true,
+        "line_end": 218,
+        "line_start": 168
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0028",
+      "category": "oversized_function",
+      "file": "orchestrator/scheduler.py",
+      "line_start": 167,
+      "line_end": 249,
+      "symbol": "complete",
+      "severity": "low",
+      "metric": "lines=83 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "complete",
+        "is_exported": true,
+        "line_end": 249,
+        "line_start": 167
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0029",
+      "category": "oversized_function",
+      "file": "orchestrator/scheduler.py",
+      "line_start": 250,
+      "line_end": 345,
+      "symbol": "reap",
+      "severity": "low",
+      "metric": "lines=96 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "reap",
+        "is_exported": true,
+        "line_end": 345,
+        "line_start": 250
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0030",
+      "category": "oversized_function",
+      "file": "orchestrator/security.py",
+      "line_start": 92,
+      "line_end": 147,
+      "symbol": "check_and_add",
+      "severity": "low",
+      "metric": "lines=56 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "check_and_add",
+        "is_exported": true,
+        "line_end": 147,
+        "line_start": 92
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0032",
+      "category": "oversized_function",
+      "file": "orchestrator/static/app.js",
+      "line_start": 300,
+      "line_end": 359,
+      "symbol": "add",
+      "severity": "low",
+      "metric": "lines=60 (threshold=50)",
+      "suggested_action": "extract_hook",
+      "action_params": {
+        "function": "add",
+        "hook_name": "Add",
+        "is_exported": false,
+        "line_end": 359,
+        "line_start": 300
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0034",
+      "category": "oversized_function",
+      "file": "orchestrator/tasks.py",
+      "line_start": 61,
+      "line_end": 116,
+      "symbol": "_insert",
+      "severity": "low",
+      "metric": "lines=56 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "_insert",
+        "is_exported": false,
+        "line_end": 116,
+        "line_start": 61
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    },
+    {
+      "id": "opp-0035",
+      "category": "oversized_function",
+      "file": "orchestrator/workflows.py",
+      "line_start": 81,
+      "line_end": 161,
+      "symbol": "advance",
+      "severity": "low",
+      "metric": "lines=81 (threshold=50)",
+      "suggested_action": "refactor_large_file",
+      "action_params": {
+        "function": "advance",
+        "is_exported": true,
+        "line_end": 161,
+        "line_start": 81
+      },
+      "confidence": 0.85,
+      "pillar_impact": "Code Quality"
+    }
+  ],
+  "overall_score": 71,
+  "pillar_score": 65.6,
+  "pillars": [
+    {
+      "pillar": "Style \u0026 Validation",
+      "indicators": {
+        "csharp_analyzer_packages": false,
+        "formatter": false,
+        "linter": true,
+        "pre_commit_hooks": true,
+        "stylecop_configured": false,
+        "type_checking": false
+      },
+      "level": 3,
+      "ruleLevel": 2,
+      "matchedRule": "style-validation/L2.lint-only",
+      "ruleReason": "a linter is configured without a formatter",
+      "details": null
+    },
+    {
+      "pillar": "Build System",
+      "indicators": {
+        "build_config": true,
+        "ci_cd": true,
+        "dependency_lock": false
+      },
+      "level": 4,
+      "ruleLevel": 3,
+      "matchedRule": "build-system/L3.ci",
+      "ruleReason": "CI is configured but dependencies are not locked",
+      "details": null
+    },
+    {
+      "pillar": "Testing",
+      "indicators": {
+        "e2e_tests": false,
+        "test_cmd_discoverable": true,
+        "test_config": true,
+        "test_files_count": 5,
+        "test_projects_count": 1,
+        "test_projects_runnable": 1,
+        "test_projects_with_execution": 1,
+        "testing_maturity_cap": 4
+      },
+      "level": 3,
+      "ruleLevel": 3,
+      "matchedRule": "testing/L3.configured-suite",
+      "ruleReason": "a configured suite of at least five test files",
+      "details": null
+    },
+    {
+      "pillar": "Documentation",
+      "indicators": {
+        "agent_doc_quality": 3,
+        "agent_docs": true,
+        "agent_harness_config": false,
+        "agent_harness_quality": 0,
+        "agent_tools_config": true,
+        "api_docs": true,
+        "architecture_docs": true,
+        "readme": true,
+        "readme_lines": 250,
+        "subdirectory_agent_docs": 2,
+        "versioned_specs": true
+      },
+      "level": 5,
+      "ruleLevel": 5,
+      "matchedRule": "documentation/L5.spec-driven",
+      "ruleReason": "agent documentation plus harness or tool configuration and versioned specs",
+      "details": null
+    },
+    {
+      "pillar": "Dev Environment",
+      "indicators": {
+        "configured_indicators": 1,
+        "dev_container": false,
+        "env_example": true,
+        "ide_config": false,
+        "setup_scripts": false,
+        "version_management": false
+      },
+      "level": 3,
+      "ruleLevel": 3,
+      "matchedRule": "dev-environment/L3.template",
+      "ruleReason": "an environment template alongside some setup signal",
+      "details": null
+    },
+    {
+      "pillar": "Code Quality",
+      "indicators": {
+        "avg_imports_per_file": 7.4,
+        "circular_dep_pairs": 0,
+        "cross_dir_import_pairs": 3,
+        "dirs_with_entry_point": 5,
+        "entry_points": 8,
+        "files_over_large_threshold": 0,
+        "good_modularity": true,
+        "high_import_files": 1,
+        "low_coupling": true,
+        "max_dir_concentration": 37.5,
+        "module_boundary_depth": 1,
+        "module_container": "",
+        "module_count": 5,
+        "modules_balanced": true,
+        "organized_structure": true,
+        "primary_language": ".py",
+        "total_code_files": 40,
+        "total_lines": 7242
+      },
+      "level": 4,
+      "ruleLevel": 4,
+      "matchedRule": "code-quality/L4.clean-modular",
+      "ruleReason": "organized structure with no oversized files, low coupling, and healthy modularity",
+      "details": [
+        "Codebase: 40 code files, ~7242 lines, primary language: .py",
+        "Modules: 5 top dirs, largest has 38% of files",
+        "Entry points: 8 (5/5 dirs have entry files)"
+      ]
+    },
+    {
+      "pillar": "Security \u0026 Governance",
+      "indicators": {
+        "component_governance": false,
+        "gitignore": true,
+        "ignores_secrets": true,
+        "ms_security_tools": false,
+        "sast": false,
+        "secret_detection": false
+      },
+      "level": 3,
+      "ruleLevel": 3,
+      "matchedRule": "security-governance/L3.secrets-ignored",
+      "ruleReason": "the ignore file covers secret material",
+      "details": null
+    }
+  ],
+  "recommendations": {
+    "long_term": [
+      "Implement dependency layering enforced by CI",
+      "Add docs-to-code drift detection to keep documentation as single source of truth",
+      "Add explicit termination predicates and cancellation, stop, or handoff exits to the bounded workflow runner"
+    ],
+    "medium_term": [
+      "Add a bounded one-step driver and concrete scheduler enrollment around the existing cleanup capability."
+    ],
+    "quick_wins": [
+      "Commit dependency lock files for reproducible builds"
+    ],
+    "short_term": [],
+    "top_5": []
+  },
+  "repo_name": "hecaton",
+  "repo_path": "C:\\Users\\scomisu\\OneDrive - Microsoft\\Desktop\\hecaton",
+  "scan_date": "2026-09-15T14:33:20+03:00",
+  "schema_version": 2
+}
