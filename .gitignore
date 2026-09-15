@@ -13,3 +13,4 @@ agent_workspace/
 .pytest_cache/
 *.mp4
 substrate-report.json
+ai-readiness-scan.json
