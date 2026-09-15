@@ -69,7 +69,7 @@ class CodeRunner:
         )
         try:
             stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=self.timeout_seconds)
-        except asyncio.TimeoutError:
+        except TimeoutError:
             process.kill()
             raise AdapterError(f"program exceeded the {self.timeout_seconds:.0f}s limit") from None
 

@@ -576,7 +576,7 @@ class AutonomousAdapter:
             raise ValueError("file not found")
         if os.path.getsize(target) > MAX_READ_BYTES:
             raise ValueError(f"file exceeds the {MAX_READ_BYTES} byte read limit")
-        with open(target, "r", encoding="utf-8", errors="replace") as handle:
+        with open(target, encoding="utf-8", errors="replace") as handle:
             return {"ok": True, "path": path, "content": handle.read()}
 
     def _list_files(self, path: Any) -> dict[str, Any]:

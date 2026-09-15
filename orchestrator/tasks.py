@@ -207,7 +207,7 @@ def list_tasks(
         params.append(workflow_id)
     where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
     params.append(limit)
-    rows = db.query(f"SELECT * FROM tasks {where} ORDER BY created_at DESC LIMIT ?", tuple(params))
+    rows = db.query(f"SELECT * FROM tasks {where} ORDER BY created_at DESC LIMIT ?", tuple(params))  # noqa: S608 - clauses are literals; filters are bound
     return [to_view(row) for row in rows]
 
 

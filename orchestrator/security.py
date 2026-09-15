@@ -18,7 +18,7 @@ import hmac
 import secrets
 import time
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from fastapi import Header, HTTPException, Request, status
 
@@ -119,8 +119,8 @@ async def require_agent(
     except ValueError:
         raise _unauthorized("X-Timestamp must be an ISO-8601 timestamp") from None
     if sent_at.tzinfo is None:
-        sent_at = sent_at.replace(tzinfo=timezone.utc)
-    skew = abs((datetime.now(timezone.utc) - sent_at).total_seconds())
+        sent_at = sent_at.replace(tzinfo=UTC)
+    skew = abs((datetime.now(UTC) - sent_at).total_seconds())
     if skew > settings.max_clock_skew:
         raise _unauthorized("request timestamp outside the accepted window")
 

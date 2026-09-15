@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import sqlite3
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from . import db
 from .config import get_settings
@@ -27,7 +27,7 @@ def _active_task_counts() -> dict[str, int]:
         SELECT agent_id, COUNT(*) AS n FROM tasks
         WHERE agent_id IS NOT NULL AND status IN ({",".join("?" * len(ACTIVE_STATUSES))})
         GROUP BY agent_id
-        """,
+        """,  # noqa: S608 - interpolates placeholders only; every value is bound
         ACTIVE_STATUSES,
     )
     return {row["agent_id"]: row["n"] for row in rows}
@@ -134,7 +134,7 @@ def list_agents(
         clauses.append("platform = ?")
         params.append(platform.value)
     where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
-    rows = db.query(f"SELECT * FROM agents {where} ORDER BY name COLLATE NOCASE", tuple(params))
+    rows = db.query(f"SELECT * FROM agents {where} ORDER BY name COLLATE NOCASE", tuple(params))  # noqa: S608 - clauses are literals; filters are bound
     counts = _active_task_counts()
     return [to_view(row, counts.get(row["id"], 0)) for row in rows]
 
@@ -154,7 +154,7 @@ def set_status(agent_id: str, status: AgentStatus) -> bool:
 def expire_stale_agents() -> list[str]:
     """Flip agents that stopped heart-beating to ``offline``."""
     settings = get_settings()
-    cutoff = (datetime.now(timezone.utc) - timedelta(seconds=settings.heartbeat_timeout)).isoformat()
+    cutoff = (datetime.now(UTC) - timedelta(seconds=settings.heartbeat_timeout)).isoformat()
     rows = db.query(
         "SELECT id FROM agents WHERE status != ? AND (last_heartbeat IS NULL OR last_heartbeat < ?)",
         (AgentStatus.OFFLINE.value, cutoff),
@@ -164,7 +164,7 @@ def expire_stale_agents() -> list[str]:
         placeholders = ",".join("?" * len(stale))
         with db.transaction() as conn:
             conn.execute(
-                f"UPDATE agents SET status = ? WHERE id IN ({placeholders})",
+                f"UPDATE agents SET status = ? WHERE id IN ({placeholders})",  # noqa: S608 - placeholders only
                 (AgentStatus.OFFLINE.value, *stale),
             )
     return stale

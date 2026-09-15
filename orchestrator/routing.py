@@ -12,7 +12,7 @@ two phase process:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from .config import get_settings
 from .models import AgentStatus, AgentView, ModelDeploymentView, ModelStatus, TaskView
@@ -117,8 +117,8 @@ def score(agent: AgentView, task: TaskView) -> float:
         try:
             beat = datetime.fromisoformat(agent.last_heartbeat)
             if beat.tzinfo is None:
-                beat = beat.replace(tzinfo=timezone.utc)
-            age = (datetime.now(timezone.utc) - beat).total_seconds()
+                beat = beat.replace(tzinfo=UTC)
+            age = (datetime.now(UTC) - beat).total_seconds()
             value += max(0.0, 10.0 - age)
         except ValueError:
             pass

@@ -147,7 +147,7 @@ class BuiltinAdapter:
         if os.path.getsize(path) > MAX_READ_BYTES:
             raise AdapterError(f"file exceeds the {MAX_READ_BYTES} byte read limit")
         content = await asyncio.to_thread(
-            lambda: open(path, "r", encoding="utf-8", errors="replace").read()
+            lambda: open(path, encoding="utf-8", errors="replace").read()
         )
         return {"path": os.path.relpath(path, self.workspace_root), "content": content}
 
@@ -224,7 +224,7 @@ class BuiltinAdapter:
             stdout, stderr = await asyncio.wait_for(
                 process.communicate(), timeout=float(payload.get("timeout_seconds", 120))
             )
-        except asyncio.TimeoutError:
+        except TimeoutError:
             process.kill()
             raise AdapterError("command timed out") from None
 

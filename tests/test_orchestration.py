@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import secrets
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from fastapi.testclient import TestClient
@@ -47,7 +47,7 @@ def register(client: TestClient, registration: dict[str, Any]) -> str:
 
 
 def agent_headers(agent_id: str, secret: str, path: str, body: bytes, method: str = "POST") -> dict[str, str]:
-    timestamp = datetime.now(timezone.utc).isoformat()
+    timestamp = datetime.now(UTC).isoformat()
     nonce = secrets.token_urlsafe(12)
     return {
         "X-Agent-Id": agent_id,

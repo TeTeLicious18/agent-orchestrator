@@ -77,7 +77,7 @@ def _agent_for(action: str) -> str:
     return agent
 
 
-def _build_input(request: "RunRequest") -> str:
+def _build_input(request: RunRequest) -> str:
     parts = [f"Task: {request.title or request.action}", f"Action: {request.action}"]
     payload = request.input or {}
     prompt = payload.get("prompt") or payload.get("query") or payload.get("instruction")

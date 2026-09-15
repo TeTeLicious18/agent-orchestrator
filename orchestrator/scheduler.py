@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from . import db, foundry, registry, tasks, workflows
 from .config import get_settings
@@ -26,7 +26,7 @@ ACTIVE = (TaskStatus.ASSIGNED.value, TaskStatus.RUNNING.value)
 
 
 def _now() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def _to_binding(deployment: ModelDeploymentView) -> ModelBinding:
@@ -159,7 +159,7 @@ def renew_lease(agent_id: str) -> None:
     expiry = (_now() + timedelta(seconds=settings.lease_seconds)).isoformat()
     with db.transaction() as conn:
         conn.execute(
-            f"UPDATE tasks SET lease_expires_at = ? WHERE agent_id = ? AND status IN ({','.join('?' * len(ACTIVE))})",
+            f"UPDATE tasks SET lease_expires_at = ? WHERE agent_id = ? AND status IN ({','.join('?' * len(ACTIVE))})",  # noqa: S608 - placeholders only
             (expiry, agent_id, *ACTIVE),
         )
 
@@ -264,7 +264,7 @@ def reap() -> dict[str, int]:
             SELECT id, workflow_id, attempts, max_attempts, started_at, timeout_seconds,
                    lease_expires_at, agent_id
             FROM tasks WHERE status IN ({','.join('?' * len(ACTIVE))})
-            """,
+            """,  # noqa: S608 - placeholders only; statuses are bound
             ACTIVE,
         ).fetchall()
 
@@ -274,7 +274,7 @@ def reap() -> dict[str, int]:
                 try:
                     started = datetime.fromisoformat(row["started_at"])
                     if started.tzinfo is None:
-                        started = started.replace(tzinfo=timezone.utc)
+                        started = started.replace(tzinfo=UTC)
                     hard_timeout = (now - started).total_seconds() > row["timeout_seconds"]
                 except ValueError:
                     hard_timeout = False

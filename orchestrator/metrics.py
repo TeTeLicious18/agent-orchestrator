@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from . import db
 from .models import AgentStatus, FleetSummary, ModelStatus
@@ -18,7 +18,7 @@ def fleet_summary() -> FleetSummary:
         "SELECT COUNT(*) AS n FROM agents WHERE status = ?", (AgentStatus.ONLINE.value,)
     )
 
-    one_hour_ago = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+    one_hour_ago = (datetime.now(UTC) - timedelta(hours=1)).isoformat()
     recent = db.query_one(
         "SELECT COUNT(*) AS n FROM tasks WHERE created_at >= ?", (one_hour_ago,)
     )

@@ -171,7 +171,7 @@ def _as_jsonable(value: Any) -> dict[str, Any]:
 
 
 def _fetch_from_file(path: str) -> list[dict[str, Any]]:
-    with open(path, "r", encoding="utf-8") as handle:
+    with open(path, encoding="utf-8") as handle:
         if path.lower().endswith((".yaml", ".yml")):
             import yaml
 

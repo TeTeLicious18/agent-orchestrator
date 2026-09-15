@@ -84,7 +84,7 @@ class BrowserController:
             try:
                 await (closer.close() if closer is self._browser else closer.stop())
             except Exception:  # noqa: BLE001 - shutdown is best effort
-                pass
+                log.debug("browser shutdown step failed", exc_info=True)
         self._playwright = self._browser = self._page = None
 
     # ------------------------------------------------------------------ guard

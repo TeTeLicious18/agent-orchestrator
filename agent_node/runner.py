@@ -35,7 +35,7 @@ log = logging.getLogger("agent")
 
 
 def load_config(path: str) -> dict[str, Any]:
-    with open(path, "r", encoding="utf-8") as handle:
+    with open(path, encoding="utf-8") as handle:
         config = yaml.safe_load(handle) or {}
     if not isinstance(config, dict):
         raise SystemExit(f"{path} must contain a YAML mapping")
@@ -291,7 +291,7 @@ class AgentNode:
                     timeout=assignment.get("timeout_seconds", 900),
                 )
                 status = "succeeded"
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 error = "local execution timeout"
             except AdapterError as exc:
                 error = str(exc)

@@ -6,7 +6,7 @@ import hashlib
 import hmac
 import json
 import secrets
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 from urllib.parse import urlsplit
 
@@ -40,7 +40,7 @@ class OrchestratorClient:
     def _sign(self, method: str, path: str, body: bytes) -> dict[str, str]:
         if self._secret is None:
             raise RuntimeError("agent is not registered; no signing secret available")
-        timestamp = datetime.now(timezone.utc).isoformat()
+        timestamp = datetime.now(UTC).isoformat()
         nonce = secrets.token_urlsafe(16)
         body_hash = hashlib.sha256(body).hexdigest()
         message = "\n".join([SIGNATURE_VERSION, method.upper(), path, timestamp, nonce, body_hash])
