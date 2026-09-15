@@ -36,6 +36,24 @@ $ErrorActionPreference = "Stop"
 $token = $env:AGENT_BOOTSTRAP_TOKEN
 if (-not $token) { throw "Set AGENT_BOOTSTRAP_TOKEN in this session first." }
 
+function Find-UserInstalledApp {
+    <#
+        Elevated sessions resolve $env:LOCALAPPDATA to the administrator profile, so a
+        per-user install belonging to the interactive user is invisible. Search every
+        profile as well as the machine-wide locations.
+    #>
+    param([string]$RelativePath, [string[]]$MachinePaths = @())
+
+    foreach ($candidate in $MachinePaths) {
+        if (Test-Path $candidate) { return $candidate }
+    }
+    foreach ($profileDir in Get-ChildItem C:\Users -Directory -ErrorAction SilentlyContinue) {
+        $candidate = Join-Path $profileDir.FullName $RelativePath
+        if (Test-Path $candidate) { return $candidate }
+    }
+    return $null
+}
+
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
     Write-Host "== Installing Git"
     winget install --id Git.Git --accept-package-agreements --accept-source-agreements --silent | Out-Null
@@ -116,10 +134,15 @@ $apps = @'
       edge: ["msedge.exe"]
       excel: ["excel.exe"]
 '@
-$vscode = (Get-ChildItem "$env:LOCALAPPDATA\Programs\Microsoft VS Code\Code.exe",
-    "C:\Program Files\Microsoft VS Code\Code.exe" -ErrorAction SilentlyContinue |
-    Select-Object -First 1).FullName
-if ($vscode) { $apps += "      vscode: [`"$($vscode -replace '\\', '\\')`"]`n" }
+$vscode = Find-UserInstalledApp -RelativePath "AppData\Local\Programs\Microsoft VS Code\Code.exe" `
+    -MachinePaths @("C:\Program Files\Microsoft VS Code\Code.exe",
+                    "C:\Program Files (x86)\Microsoft VS Code\Code.exe")
+if ($vscode) {
+    Write-Host "== Found VS Code at $vscode"
+    $apps += "      vscode: [`"$($vscode -replace '\\', '\\')`"]`n"
+} else {
+    Write-Warning "VS Code not found; the vscode entry is omitted from node.yaml."
+}
 
 $pythonYaml = $python -replace '\\', '\\'
 
