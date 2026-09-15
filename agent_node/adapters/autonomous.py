@@ -422,6 +422,12 @@ class AutonomousAdapter:
                             "items": {"type": "string"},
                             "description": "Optional arguments passed to the program",
                         },
+                        "show_output": {
+                            "type": "boolean",
+                            "description": "Save the run transcript and open it on the desktop so "
+                            "the user can see the output. Use this whenever the user asks to see "
+                            "the program run or its results.",
+                        },
                     },
                     ["runtime", "path"],
                 )
@@ -454,11 +460,7 @@ class AutonomousAdapter:
             if name.startswith("excel_") and self.excel is not None:
                 return await self._run_excel_tool(name, arguments)
             if name == "run_code" and self.code_runner is not None:
-                return await self.code_runner.run(
-                    arguments.get("runtime"),
-                    self._resolve(arguments.get("path")),
-                    arguments.get("args"),
-                )
+                return await self._run_program(arguments)
             return {"ok": False, "error": f"unknown tool '{name}'"}
         except Exception as exc:  # noqa: BLE001 - fed back to the model as an observation
             return {"ok": False, "error": f"{type(exc).__name__}: {exc}"}
@@ -482,6 +484,27 @@ class AutonomousAdapter:
                 path = f"{path}.png"
             return await self.browser.screenshot(self._resolve(path))
         return {"ok": False, "error": f"unknown browser tool '{name}'"}
+
+    async def _run_program(self, arguments: dict[str, Any]) -> dict[str, Any]:
+        relative = arguments.get("path")
+        outcome = await self.code_runner.run(
+            arguments.get("runtime"), self._resolve(relative), arguments.get("args")
+        )
+
+        # run_code captures output so the model can debug; the operator sees nothing on
+        # screen unless the transcript is written out and opened.
+        if arguments.get("show_output") and self.allow_desktop:
+            transcript = f"{os.path.splitext(str(relative))[0]}.output.txt"
+            body = (
+                f"$ {outcome['runtime']} {relative}\n"
+                f"exit code: {outcome['exit_code']}\n\n"
+                f"{outcome['stdout']}"
+                + (f"\n--- stderr ---\n{outcome['stderr']}" if outcome["stderr"] else "")
+            )
+            self._write_file(transcript, body)
+            self._open_in_notepad(transcript)
+            outcome["transcript"] = transcript
+        return outcome
 
     async def _run_desktop_tool(self, name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         if name == "desktop_launch":
